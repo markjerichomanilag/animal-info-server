@@ -4,8 +4,8 @@ This server is just a practice project for learning Fastify, to understand how i
 
 ## Requirements
 
-node version `>=v20.9.0`
-Database mongodb `>= 7.0.4` you can either use [Mongodb Community Edition](https://www.mongodb.com/try/download/community) or [Mongodb Atlas](https://www.mongodb.com/products/platform/atlas-database), but this will be soon replaced with [supabase](https://supabase.com/)
+- node version `>=v20.9.0`
+- Database mongodb `>= 7.0.4` you can either use [Mongodb Community Edition](https://www.mongodb.com/try/download/community) or [Mongodb Atlas](https://www.mongodb.com/products/platform/atlas-database), but this will be soon replaced with [supabase](https://supabase.com/)
 
 ## install dependencies
 
