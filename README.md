@@ -1,6 +1,6 @@
-# Server for AnimalInfo (A fastify-practice)
+# Server for Animal-Info (A fastify-practice project)
 
-This server is just a practice for fastify, to know how it works and to better understand the author's company tech stack.
+This server is just a practice project for learning Fastify, to understand how it works and to better understand my company's tech stack.
 
 ## Requirements
 
