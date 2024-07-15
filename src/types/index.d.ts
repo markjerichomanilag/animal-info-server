@@ -18,3 +18,9 @@ declare module 'fastify' {
     ) => VerifyPayloadType & IJWTPayload;
   }
 }
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {}
+  }
+}

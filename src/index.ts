@@ -1,9 +1,11 @@
+import { verifyJwtToken } from './helpers';
+
 import Fastify from 'fastify';
 import dbInitialize from './db-configuration';
 import AnimalRoutes from './routes/animals';
 import AuthRoutes from './routes/auth';
 import fastifyJwt from '@fastify/jwt';
-import { verifyJwtToken } from './helpers';
+import 'dotenv/config';
 
 const fastify = Fastify({ logger: true });
 
