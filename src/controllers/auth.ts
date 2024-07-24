@@ -2,6 +2,8 @@ import { RouteHandler } from 'fastify';
 import { IDocumentUser, ISignInUserBody, ISignUpUserBody } from '../types/user';
 import { MongoServerError } from 'mongodb';
 
+import logger from '../logger';
+
 export const signUpHandler: RouteHandler<{ Body: ISignUpUserBody }> = async (
   req,
   reply,
@@ -35,6 +37,7 @@ export const signUpHandler: RouteHandler<{ Body: ISignUpUserBody }> = async (
 
     return reply.status(201).send({ message: 'User created' });
   } catch (err: MongoServerError | any) {
+    logger.error('signUpHandler err:', err);
     if (err instanceof MongoServerError) {
       switch (err.code) {
         case 11000:
@@ -73,6 +76,7 @@ export const signInHandler: RouteHandler<{ Body: ISignInUserBody }> = async (
       return reply.status(400).send({ message: 'Invalid credentials' });
     }
   } catch (err) {
+    logger.error('signInHandler err:', err);
     return reply
       .status(500)
       .send({ message: 'Something went wrong. Please try again later' });
@@ -89,11 +93,13 @@ export const signInHandler: RouteHandler<{ Body: ISignInUserBody }> = async (
         'authorization',
         `Bearer ${req.server.signJwt(req.server, { userId: foundUser._id })}`,
       );
-      return reply.status(200).send({ message: 'Signed In', data: foundUser });
+      const { password, ...rest } = foundUser;
+      return reply.status(200).send({ message: 'Signed In', data: rest });
     } else {
       return reply.status(400).send({ message: 'Invalid credentials' });
     }
   } catch (err) {
+    logger.error('signInHandler err:', err);
     return reply
       .status(500)
       .send({ message: 'Something went wrong. Please try again later' });

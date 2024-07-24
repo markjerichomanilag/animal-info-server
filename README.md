@@ -30,3 +30,6 @@ npm run build
 ```
 npm run start
 ```
+
+> [!NOTE]
+> A `logs` folder will be created once you run `npm run dev`, all your logs using `winston` will be stored in that folder.

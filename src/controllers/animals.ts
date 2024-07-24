@@ -1,6 +1,8 @@
 import { RouteHandler } from 'fastify';
 import { IAnimalsParams, IPostAnimalBody } from '../types/animals';
 
+import logger from '../logger';
+
 export const getAnimalsHandler: RouteHandler = async (req, reply) => {
   const animalsColRef = req.server.mongo.db?.collection('animals');
 
@@ -8,6 +10,7 @@ export const getAnimalsHandler: RouteHandler = async (req, reply) => {
     const data = await animalsColRef?.find().toArray();
     reply.send(data);
   } catch (err) {
+    logger.error('getAnimalsHandler err:', err);
     reply.send({ message: 'wa lgee' });
   }
 };
@@ -26,6 +29,7 @@ export const getAnimalHandler: RouteHandler<{
 
     reply.send(data);
   } catch (err: any) {
+    logger.error('getAnimalHandler err:', err);
     reply.send({ message: 'wa lgee' });
   }
 };
@@ -40,6 +44,7 @@ export const createAnimalHandler: RouteHandler<{
     reply.status(201);
     return { message: 'Created' };
   } catch (err) {
+    logger.error('Create animal Err:', err);
     reply.send(err);
   }
 };
@@ -65,6 +70,7 @@ export const deleteAnimalHandler: RouteHandler<{
     reply.status(200);
     return { message: 'Deleted' };
   } catch (err) {
+    logger.error('deleteAnimalHandler err:', err);
     return err;
   }
 };

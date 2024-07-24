@@ -21,6 +21,10 @@ declare module 'fastify' {
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {}
+    interface ProcessEnv {
+      ENV: 'development' | 'production' | 'stage';
+    }
   }
 }
+
+export type EnvTypes = 'development' | 'stage' | 'production';

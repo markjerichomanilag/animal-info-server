@@ -1,13 +1,16 @@
+import { FastifyInstance } from 'fastify';
+
 import FastifyPlugin from 'fastify-plugin';
 import FastifyMongo from '@fastify/mongodb';
-import { FastifyInstance } from 'fastify';
+import logger from '../logger';
 
 async function createAnimalsCollection(fastify: FastifyInstance) {
   try {
-    await fastify.mongo.db?.createCollection('animals');
-    fastify.log.info('animals collection created or already existed');
+    const animalsColRef = await fastify.mongo.db?.createCollection('animals');
+    animalsColRef?.createIndex({ name: 1 }, { unique: true });
+    logger.info('animals collection created or already existed');
   } catch (err) {
-    fastify.log.error('animals collection failed to create');
+    logger.error('animals collection failed to create err:', err);
   }
 }
 
@@ -21,10 +24,9 @@ async function createUsersCollection(fastify: FastifyInstance) {
         unique: false,
       },
     );
-    fastify.log.info('users collection created or already existed');
-    fastify.log.info('users collection indexes ');
+    logger.info('users collection created or already existed');
   } catch (err) {
-    fastify.log.error('users collection failed to create');
+    logger.error('users collection failed to create err:', err);
   }
 }
 
@@ -38,7 +40,7 @@ async function dbInitialize(fastify: FastifyInstance) {
     await createAnimalsCollection(fastify);
     await createUsersCollection(fastify);
   } catch (err: any) {
-    fastify.log.error(err);
+    logger.error('dbInitialize err:', err);
   }
 }
 
