@@ -14,7 +14,7 @@ const fastify = Fastify({ logger: true });
 logger.setEnv(process.env.ENV);
 logger.setVerbose(true);
 
-const PORT = 5000;
+const PORT = 5001;
 
 // initialize DB
 dbInitialize(fastify);
@@ -28,6 +28,19 @@ fastify.register(fastifyJwt, { secret: 'SUPER-SECRET-KEY' }); // create an env v
 // register routes
 fastify.register(AnimalRoutes, { prefix: '/animals' });
 fastify.register(AuthRoutes, { prefix: '/auth' });
+
+//  fastify.register(fastifyCors, {
+//   origin: (origin, cb) => {
+//     const hostname = new URL(origin).hostname
+//     if(hostname === "localhost"){
+//       //  Request from localhost will pass
+//       cb(null, true)
+//       return
+//     }
+//     // Generate an error on other origins, disabling access
+//     cb(new Error("Not allowed"), false)
+//   }
+// })
 
 fastify.ready((err) => {
   if (err) {
