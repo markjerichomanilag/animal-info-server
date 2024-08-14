@@ -8,6 +8,7 @@ import fastifyJwt from '@fastify/jwt';
 import logger from './logger';
 
 import 'dotenv/config';
+import fastifyCors from '@fastify/cors';
 
 const fastify = Fastify({ logger: true });
 
@@ -29,18 +30,20 @@ fastify.register(fastifyJwt, { secret: 'SUPER-SECRET-KEY' }); // create an env v
 fastify.register(AnimalRoutes, { prefix: '/animals' });
 fastify.register(AuthRoutes, { prefix: '/auth' });
 
-//  fastify.register(fastifyCors, {
-//   origin: (origin, cb) => {
-//     const hostname = new URL(origin).hostname
-//     if(hostname === "localhost"){
-//       //  Request from localhost will pass
-//       cb(null, true)
-//       return
-//     }
-//     // Generate an error on other origins, disabling access
-//     cb(new Error("Not allowed"), false)
-//   }
-// })
+// Allow a production URL if you have one
+// for now it's localhost only
+fastify.register(fastifyCors, {
+  origin: (origin, cb) => {
+    const hostname = new URL(origin || '').hostname;
+    if (hostname === 'localhost') {
+      //  Request from localhost will pass
+      cb(null, true);
+      return;
+    }
+    // Generate an error on other origins, disabling access
+    cb(new Error('Not allowed'), false);
+  },
+});
 
 fastify.ready((err) => {
   if (err) {
